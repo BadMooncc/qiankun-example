@@ -1,9 +1,9 @@
 <template>
   <div id="mico-main">
-    <!-- <template v-if="showChild">
+    <template v-if="showChild">
       <router-view></router-view>
-    </template> -->
-    <layout :loading="loading">
+    </template>
+    <layout v-else :loading="loading">
       <div id="subapp-viewport"></div>
     </layout>
   </div>
@@ -14,13 +14,13 @@ export default {
   props: {
     loading: Boolean
   },
+  computed: {
+    showChild() {
+      return !this._subapp.filter(item => this.$route.path.indexOf(item.name) !== -1).length
+    }
+  },
   components: {
     layout
-  },
-  data() {
-    return {
-      showChild: '',
-    }
   }
 }
 </script>

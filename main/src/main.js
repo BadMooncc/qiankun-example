@@ -4,11 +4,16 @@ import { registerMicroApps, start } from 'qiankun'
 import router from './router/index.js'
 import store from './store'
 import Element from 'element-ui'
+import micoConf from './config/moico-config.js'
 import 'element-ui/lib/theme-chalk/index.css';
 
 
+
 Vue.use(Element)
+Vue.prototype._subapp = micoConf
 Vue.config.productionTip = false
+
+
 
 const instance = new Vue({
   router,
@@ -22,16 +27,12 @@ const instance = new Vue({
     return <App loading={this.loading} />
   },
 }).$mount('#mico-main')
-registerMicroApps([
-  {
-    name: "vue",
-    entry: "//localhost:7102",
-    container: "#subapp-viewport",
-    activeRule: "/vue",
-    props: {
-      closeLoading: () => instance.loading = false
-    }
-  },
-])
+registerMicroApps(micoConf.map(item => ({
+  ...item,
+  props: {
+    store: store,
+    closeLoading: () => instance.loading = false
+  }
+})))
 start()
   

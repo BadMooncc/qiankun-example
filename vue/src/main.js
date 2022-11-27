@@ -21,10 +21,12 @@ function render(props = {}) {
     mode: 'history',
     routes,
   });
-
+  // 将主应用store中的state引用给子应用
+  store.state.globalStore = props.store.state
+  console.log(store.state, '123')
   instance = new Vue({
     router,
-    store,
+    store: store,
     render: h => h(App),
   }).$mount(container ? container.querySelector('#app') : '#app');
 }
@@ -53,7 +55,7 @@ export async function bootstrap() {
 }
 
 export async function mount(props) {
-  console.log('[vue] props from main framework', props);
+  console.log('[vue] props from main framework', props.store.state);
   props.closeLoading()
   storeTest(props);
   render(props);
