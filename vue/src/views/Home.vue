@@ -40,11 +40,15 @@
       };
     },
     created() {
-      console.log(this.$store)
+      console.log(this.$actions)
+      this.name = this.$actions.getGlobalState('logo')
     },
     methods: {
       handleConfirm() {
         if(!this.name) return this.$message.error('请输入名字')
+        this.$actions.setGlobalState({
+          logo: this.name
+        })
         this.$store.commit('SET_NAME', this.name)
       },
       handleClose(done) {

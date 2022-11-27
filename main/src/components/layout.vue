@@ -8,7 +8,7 @@
       @open="handleOpen"
       @close="handleClose">
       <div class="side-bar_logo">
-        <span>qiankun</span>
+        <span>{{ logo }}</span>
         <img src="../assets/logo.png" alt="">
       </div>
       <el-menu-item index="home">
@@ -42,9 +42,15 @@
 </div>
 </template>
 <script>
+  import actions from '@/utils/action.js'
   export default {
     props: {
       loading: Boolean
+    },
+    data() {
+      return  {
+        logo: actions.getGlobalState('logo')
+      }
     },
     methods: {
       handleOpen(key, keyPath) {

@@ -6,14 +6,13 @@ import store from './store'
 import Element from 'element-ui'
 import micoConf from './config/moico-config.js'
 import 'element-ui/lib/theme-chalk/index.css';
+import actions from './utils/action.js'
 
 
 
 Vue.use(Element)
 Vue.prototype._subapp = micoConf
 Vue.config.productionTip = false
-
-
 
 const instance = new Vue({
   router,
@@ -31,6 +30,7 @@ registerMicroApps(micoConf.map(item => ({
   ...item,
   props: {
     store: store,
+    actions,
     closeLoading: () => instance.loading = false
   }
 })))
