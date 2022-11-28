@@ -31,7 +31,7 @@
           <el-dropdown-item>删除</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <span>{{ $store.state.userInfo.name }}</span>
+      <span @click="handleClick">{{ $store.state.userInfo.name }}</span>
     </el-header>
   </div>
   <div v-loading="loading" class="main">
@@ -53,6 +53,10 @@
       }
     },
     methods: {
+      handleClick() {
+        console.log(123)
+        this.$store.commit('SET_NAME', '修改啦')
+      },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
@@ -101,7 +105,7 @@
   box-sizing: border-box;
   border-bottom: 1px solid #f0f0f0;
   position: absolute;
-  z-index: -1;
+  /* z-index: -1; */
   left: 0;
   top: 0;
 }

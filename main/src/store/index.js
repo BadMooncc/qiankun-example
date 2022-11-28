@@ -12,12 +12,14 @@ export default new Vuex.Store({
   getters: {
     userName: state => state.userInfo.name
   },
+  actions: {
+    setName({ commit }, payload) {
+      commit('SET_NAME', payload)
+    }
+  },
   mutations: {
     SET_NAME(state, payload) {
       state.userInfo.name = payload
     }
-  },
-  actions: {
-
   }
 })

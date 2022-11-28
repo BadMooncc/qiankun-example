@@ -13,7 +13,7 @@ import actions from './utils/action.js'
 Vue.use(Element)
 Vue.prototype._subapp = micoConf
 Vue.config.productionTip = false
-
+console.log(store, 'store')
 const instance = new Vue({
   router,
   store,

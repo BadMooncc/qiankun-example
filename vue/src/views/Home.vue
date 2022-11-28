@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     
-    你好，今天是{{ new Date() }},欢迎您, {{ $store.state.globalStore.userInfo.name }}
+    你好，今天是{{ new Date() }},欢迎您, {{ $globalStore.state.userInfo.name }}
+    子应用 {{ $store.state.userInfo.name }}
     <div>
       <el-input style="width: 200px;" v-model="name"></el-input>
       <el-button @click="handleConfirm" type="primary">修改名称</el-button>
@@ -25,40 +26,44 @@
 </template>
 
 <script>
-  // @ is an alias to /src
-  import HelloWorld from '@/components/HelloWorld.vue';
+// @ is an alias to /src
+import HelloWorld from '@/components/HelloWorld.vue';
 
-  export default {
-    name: 'home',
-    components: {
-      HelloWorld,
+export default {
+  name: 'home',
+  components: {
+    HelloWorld,
+  },
+  data() {
+    return {
+      dialogVisible: false,
+      name: ''
+    };
+  },
+  watch: {
+    '$globalStore.state.userInfo.name'(val) {
+      console.log(213)
+    }
+  },
+  created() {
+    this.name = this.$actions.getGlobalState('logo')
+  },
+  methods: {
+    handleConfirm() {
+      if(!this.name) return this.$message.error('请输入名字')
+      this.$actions.setGlobalState({
+        logo: this.name
+      })
+      this.$globalStore.commit('SET_NAME', this.name)
     },
-    data() {
-      return {
-        dialogVisible: false,
-        name: ''
-      };
-    },
-    created() {
-      console.log(this.$actions)
-      this.name = this.$actions.getGlobalState('logo')
-    },
-    methods: {
-      handleConfirm() {
-        if(!this.name) return this.$message.error('请输入名字')
-        this.$actions.setGlobalState({
-          logo: this.name
+    handleClose(done) {
+      this.$confirm('Sure to close？')
+        .then(_ => {
+          done();
         })
-        this.$store.commit('SET_NAME', this.name)
-      },
-      handleClose(done) {
-        this.$confirm('Sure to close？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {
-          });
-      },
+        .catch(_ => {
+        });
     },
-  };
+  },
+};
 </script>

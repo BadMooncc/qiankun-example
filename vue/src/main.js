@@ -23,9 +23,7 @@ function render(props = {}) {
     mode: 'history',
     routes,
   });
-  // 将主应用store中的全局state引用给子应用
-  store.state.globalStore = props.store.state
-  console.log(store.state, '123')
+  Vue.prototype.$globalStore = props.store
   instance = new Vue({
     router,
     store: store,
