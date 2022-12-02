@@ -1,9 +1,12 @@
 module.exports = {
   //路径前缀
-  publicPath: "/",
+  publicPath: '/',
   lintOnSave: true,
+  outputDir: 'dist',
+  filenameHashing: false,
+  assetsDir: 'project/main',
   productionSourceMap: false,
-  configureWebpack: (config)=>{
+  configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'production'){
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
     }
@@ -27,7 +30,10 @@ module.exports = {
   },
   // //开发模式反向代理配置，生产模式请使用Nginx部署并配置反向代理
   devServer: {
-    port: 8080,
+    port: 1888,
+    // headers: {
+    //   'Access-Control-Allow-Origin': '*',
+    // },
     proxy: {
       '/api': {
         //本地服务接口地址

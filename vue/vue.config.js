@@ -1,63 +1,49 @@
-const path = require('path');
-const { name } = require('./package');
-
+const path = require('path')
+var dirPath = path.dirname(__filename)
+var outputName = dirPath.split('/')
+outputName = outputName[outputName.length - 1]
 function resolve(dir) {
-  return path.join(__dirname, dir);
+  return path.join(__dirname, dir)
 }
 
-
 module.exports = {
-  /**
-   * You will need to set publicPath if you plan to deploy your site under a sub path,
-   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
-   * then publicPath should be set to "/bar/".
-   * In most cases please use '/' !!!
-   * Detail: https://cli.vuejs.org/config/#publicpath
-   */
-  outputDir: 'dist',
+  outputDir: outputName,
   assetsDir: 'static',
-  filenameHashing: true,
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : './',
+  filenameHashing: false,
   // tweak internal webpack configuration.
   // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-  devServer: {
-    // host: '0.0.0.0',
-    hot: true,
-    disableHostCheck: true,
-    port: 7102,
-    overlay: {
-      warnings: false,
-      errors: true,
-    },
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-  },
-  chainWebpack: (config) => {
-    //忽略的打包文件
-    config.externals({
+  // 自定义webpack配置
+  configureWebpack: config => {
+    config.optimization.minimizer[0].options.terserOptions.compress.drop_console = process.env.NODE_ENV === 'production'
+    config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = process.env.NODE_ENV === 'production'
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        '@': resolve('src'),
+      },
+    }
+    config.externals = {
       'vue': 'Vue',
       'vue-router': 'VueRouter',
       'vuex': 'Vuex',
       'axios': 'axios',
       'element-ui': 'ELEMENT',
-    })
-    // const entry = config.entry('app')
-    // entry.add('babel-polyfill').end()
-    // entry.add('classlist-polyfill').end()
-    // entry.add('@/mock').end()
+    }
+    config.output.library = `${outputName}-[name]`
+    config.output.libraryTarget = 'umd'
+    config.output.jsonpFunction = `webpackJsonp_${outputName}`
   },
-  // 自定义webpack配置
-  configureWebpack: {
-    resolve: {
-      alias: {
-        '@': resolve('src'),
-      },
+  devServer: {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
     },
-    output: {
-      // 把子应用打包成 umd 库格式
-      library: `${name}-[name]`,
-      libraryTarget: 'umd',
-      jsonpFunction: `webpackJsonp_${name}`,
-    },
+    hot: true,
+    disableHostCheck: true,
+    port: 7101,
+    overlay: {
+      warnings: false,
+      errors: true,
+    }
   },
-};
+}
