@@ -19,6 +19,10 @@
         <i class="el-icon-setting"></i>
         <span slot="title">about</span>
       </el-menu-item>
+      <el-menu-item index="demo"  @click="$router.push('/demo/vue')">
+        <i class="el-icon-setting"></i>
+        <span slot="title">demo子应用页面</span>
+      </el-menu-item>
     </el-menu>
   </div>
   <div class="header">
