@@ -19,8 +19,8 @@ let instance = null;
 function render(props = {}) {
   const { container } = props;
   router = new VueRouter({
-    base: window.__POWERED_BY_QIANKUN__ ? '/vue' : '/',
-    mode: 'history',
+    // base: window.__POWERED_BY_QIANKUN__ ? '/vue' : '/',
+    mode: 'hash',
     routes,
   });
   Vue.prototype.$globalStore = props.store

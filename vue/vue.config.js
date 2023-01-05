@@ -40,7 +40,7 @@ module.exports = {
     },
     hot: true,
     disableHostCheck: true,
-    port: 7101,
+    port: 8001,
     overlay: {
       warnings: false,
       errors: true,

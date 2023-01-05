@@ -11,11 +11,11 @@
         <span>{{ logo }}</span>
         <img src="../assets/logo.png" alt="">
       </div>
-      <el-menu-item index="home">
+      <el-menu-item @click="$router.push('/vue/home')" index="home">
         <i class="el-icon-menu"></i>
         <span slot="title">home</span>
       </el-menu-item>
-      <el-menu-item index="about">
+      <el-menu-item index="about"  @click="$router.push('/vue/abou')">
         <i class="el-icon-setting"></i>
         <span slot="title">about</span>
       </el-menu-item>
